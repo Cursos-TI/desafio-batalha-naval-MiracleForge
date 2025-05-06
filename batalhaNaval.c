@@ -1,29 +1,58 @@
 #include <stdio.h>
+#include <stdlib.h>
 #define num_of_rows 10
 #define num_of_collums 10
 #define ship_size 3
+#define pos_vertical 1
 // desafio batalha naval - matecheck
 // este código inicial serve como base para o desenvolvimento do sistema de
 // batalha naval. siga os comentários para implementar cada parte do desafio.
+//
+void add_ship_vertical(int tabuleiro[num_of_rows][num_of_collums], int coord_x,
+                       int coord_y) {
+  for (int v = 0; v < ship_size; v++) {
+    if (coord_x + ship_size > num_of_rows ||
+        tabuleiro[coord_x + v][coord_y] == 3) {
+      printf("coordenada inválida");
+      exit(1);
+    }
+    tabuleiro[coord_x + v][coord_y] = 3;
+  }
+}
+void add_ship_horizontal(int tabuleiro[num_of_rows][num_of_collums],
+                         int coord_x, int coord_y) {
+  for (int h = 0; h < ship_size; h++) {
+    if (coord_y + ship_size > num_of_collums ||
+        tabuleiro[coord_x][coord_y + h] == 3) {
+      printf("coordenada inválida");
+      exit(1);
+    }
+    tabuleiro[coord_x][coord_y + h] = 3;
+  }
+}
 
-int main() {
-  // nível novato - posicionamento dos navios
-  int tabuleiro[num_of_rows][num_of_collums] = {0};
-  // navios
-  for (int x = 0; x < num_of_rows; x++) {
-    for (int y = 0; y < num_of_collums; y++) {
-      if (x == 3 && y == 2) {
-        for (int s = 0; s < ship_size; s++) {
-          tabuleiro[x + s][y] = 3;
-        }
-      } else if (x == 6 && y == 7) {
-        for (int s = 0; s < ship_size; s++) {
-          tabuleiro[x][y + s] = 3;
-        }
-      }
+void add_ship_diag(int tabuleiro[num_of_rows][num_of_collums], int coord_x,
+                   int coord_y) {
+  for (int d = 0; d < ship_size; d++) {
+    if (coord_x - d < 0 || coord_x - d >= num_of_rows || coord_y + d < 0 ||
+        coord_y + d >= num_of_collums) {
+      printf(
+          "Coordenada inválida: o navio ultrapassa os limites do tabuleiro.\n");
+      exit(1);
+    }
+
+    if (tabuleiro[coord_x - d][coord_y + d] == 3) {
+      printf("Coordenada inválida: há um navio nesta posição.\n");
+      exit(1);
     }
   }
 
+  for (int d = 0; d < ship_size; d++) {
+    tabuleiro[coord_x - d][coord_y + d] = 3;
+  }
+}
+
+void draw_table(int tabuleiro[num_of_rows][num_of_collums]) {
   printf("  / | ");
   for (int c = 0; c < num_of_collums; c++) {
     printf("%c | ", 'a' + c);
@@ -37,7 +66,22 @@ int main() {
     }
     printf("\n");
   }
+}
 
+int main() {
+  // nível novato - posicionamento dos navios
+  int tabuleiro[num_of_rows][num_of_collums] = {0};
+  // navios
+  add_ship_vertical(tabuleiro, 7, 6);
+  add_ship_vertical(tabuleiro, 4, 1);
+
+  add_ship_horizontal(tabuleiro, 3, 7);
+  add_ship_horizontal(tabuleiro, 6, 7);
+
+  add_ship_diag(tabuleiro, 2, 4);
+  add_ship_diag(tabuleiro, 7, 3);
+
+  draw_table(tabuleiro);
   // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro
   //
   // (Ex: int tabuleiro[5][5];). Sugestão: Posicione dois navios no tabuleiro,
