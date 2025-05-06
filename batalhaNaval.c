@@ -1,27 +1,44 @@
 #include <stdio.h>
-#define NUM_OF_ROWS 10
-#define NUM_OF_COLLUMS 10
-// Desafio Batalha Naval - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de
-// Batalha Naval. Siga os comentários para implementar cada parte do desafio.
+#define num_of_rows 10
+#define num_of_collums 10
+#define ship_size 3
+// desafio batalha naval - matecheck
+// este código inicial serve como base para o desenvolvimento do sistema de
+// batalha naval. siga os comentários para implementar cada parte do desafio.
 
 int main() {
-  // Nível Novato - Posicionamento dos Navios
-  int tabuleiro[NUM_OF_ROWS][NUM_OF_COLLUMS] = {0};
+  // nível novato - posicionamento dos navios
+  int tabuleiro[num_of_rows][num_of_collums] = {0};
+  // navios
+  for (int x = 0; x < num_of_rows; x++) {
+    for (int y = 0; y < num_of_collums; y++) {
+      if (x == 3 && y == 2) {
+        for (int s = 0; s < ship_size; s++) {
+          tabuleiro[x + s][y] = 3;
+        }
+      } else if (x == 6 && y == 7) {
+        for (int s = 0; s < ship_size; s++) {
+          tabuleiro[x][y + s] = 3;
+        }
+      }
+    }
+  }
 
   printf("  / | ");
-  for (int c = 0; c < NUM_OF_COLLUMS; c++) {
+  for (int c = 0; c < num_of_collums; c++) {
     printf("%c | ", 'a' + c);
   }
   printf("\n");
 
-  for (int r = 0; r < NUM_OF_ROWS; r++) {
+  for (int r = 0; r < num_of_rows; r++) {
     printf("  %i | ", r);
-    for (int c = 0; c < NUM_OF_COLLUMS; c++) {
+    for (int c = 0; c < num_of_collums; c++) {
       printf("%i | ", tabuleiro[r][c]);
     }
     printf("\n");
-  } // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro
+  }
+
+  // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro
   //
   // (Ex: int tabuleiro[5][5];). Sugestão: Posicione dois navios no tabuleiro,
   // um verticalmente e outro horizontalmente. Sugestão: Utilize `printf` para
